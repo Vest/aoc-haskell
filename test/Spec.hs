@@ -16,8 +16,10 @@ tests = TestList [TestLabel "test1" test1, TestLabel "test2" test2]
 tests' :: Test
 tests' =
   test
-    [ "test1" ~: "(foo 3)" ~: (1, 2) ~=? (foo 3),
-      "test2" ~: "parseStep(R1)" ~: Just (Lib.Right 1) ~=? (Lib.parseStep "R1")
+    [ "test1" ~: "parseStep(R1)" ~: Just (Lib.Right 1) ~=? (Lib.parseStep "R1"),
+      "test2" ~: "parseStep(R2)" ~: Just (Lib.Right 2) ~=? (Lib.parseStep "R2"),
+      "test3" ~: "parseStep(L1)" ~: Just (Lib.Left 1) ~=? (Lib.parseStep "L1"),
+      "test4" ~: "parseStep(L2)" ~: Just (Lib.Left 2) ~=? (Lib.parseStep "L2")
     ]
 
 main :: IO Counts

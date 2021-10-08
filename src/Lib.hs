@@ -8,7 +8,7 @@ where
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
-data Rotate = Right Integer | Left Integer
+data Rotate = Right Int | Left Int
 
 instance Eq Rotate where
   Lib.Right s1 == Lib.Right s2 = s1 == s2
@@ -20,6 +20,12 @@ instance Show Rotate where
   show (Lib.Left steps) = "L" ++ show steps
 
 parseStep :: String -> Maybe Rotate
-parseStep step = Just (Lib.Right 0)
+parseStep stepString = case rotationChar of
+    'R' -> Just (Lib.Right steps)
+    'L' -> Just (Lib.Left steps)
+    _ -> Nothing
   where
-    s = head step
+    rotationChar = head stepString
+    steps = read (tail stepString) :: Int
+
+
