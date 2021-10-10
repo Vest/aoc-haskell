@@ -33,6 +33,7 @@ library
   build-depends:
       HUnit
     , base >=4.7 && <5
+    , split
   default-language: Haskell2010
 
 executable aoc-haskell-exe
@@ -46,6 +47,7 @@ executable aoc-haskell-exe
       HUnit
     , aoc-haskell
     , base >=4.7 && <5
+    , split
   default-language: Haskell2010
 
 test-suite aoc-haskell-test
@@ -60,4 +62,5 @@ test-suite aoc-haskell-test
       HUnit
     , aoc-haskell
     , base >=4.7 && <5
+    , split
   default-language: Haskell2010

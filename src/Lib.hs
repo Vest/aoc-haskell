@@ -1,9 +1,13 @@
 module Lib
   ( someFunc,
+    parseInput,
     parseStep,
     Rotate (Right, Left),
   )
 where
+
+import Data.List.Split
+import Data.Maybe
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -21,11 +25,12 @@ instance Show Rotate where
 
 parseStep :: String -> Maybe Rotate
 parseStep stepString = case rotationChar of
-    'R' -> Just (Lib.Right steps)
-    'L' -> Just (Lib.Left steps)
-    _ -> Nothing
+  'R' -> Just . Lib.Right $ steps
+  'L' -> Just . Lib.Left $ steps
+  _ -> Nothing
   where
     rotationChar = head stepString
-    steps = read (tail stepString) :: Int
+    steps = read . tail $ stepString :: Int
 
-
+parseInput :: String -> [Rotate]
+parseInput = catMaybes . map parseStep . split (dropDelims . dropBlanks $ onSublist ", ")
