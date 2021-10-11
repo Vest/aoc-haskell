@@ -5,11 +5,15 @@ module Lib
     Rotate (Right, Left),
     Direction (North, South, East, West),
     rotate,
+    Position (..),
+    moveSteps,
+    movement
   )
 where
 
 import Data.List.Split
 import Data.Maybe
+import Debug.Trace
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -17,8 +21,9 @@ someFunc = putStrLn "someFunc"
 data Rotate = Right Int | Left Int
 
 data Position = Position
-  { row :: Int,
-    col :: Int
+  { row,
+    col ::
+      Int
   }
 
 data Direction = North | South | East | West
@@ -45,6 +50,12 @@ instance Show Direction where
   show (East) = "E"
   show (West) = "W"
 
+instance Eq Position where
+  p1 == p2 = row p1 == row p2 && col p1 == col p2
+
+instance Show Position where
+  show (Lib.Position row col) = "(" ++ (show col) ++ ", " ++ (show row) ++ ")"
+
 parseStep :: String -> Maybe Rotate
 parseStep stepString = case rotationChar of
   'R' -> Just . Lib.Right $ steps
@@ -67,3 +78,19 @@ rotate rot dir = case (rot, dir) of
   (Lib.Left _, South) -> East
   (Lib.Left _, East) -> North
   (Lib.Left _, West) -> South
+
+moveSteps :: Int -> (Direction, Position) -> (Direction, Position)
+moveSteps steps (North, pos) = (North, pos {row = row pos + steps})
+moveSteps steps (East, pos) = (East, pos {col = col pos + steps})
+moveSteps steps (West, pos) = (West, pos {col = col pos - steps})
+moveSteps steps (South, pos) = (South, pos {row = row pos - steps})
+
+movement :: (Direction, Position) -> [Rotate] -> (Direction, Position)
+movement (dir, pos) [] = (dir, pos)
+movement (dir, pos) (x : xpath) =
+  let newDir = rotate x dir
+      steps = case x of
+        Lib.Right s -> s
+        Lib.Left s -> s
+      newPos = moveSteps steps (newDir, pos)
+   in trace ("\nnewPos" ++ show newPos) $ movement newPos xpath
