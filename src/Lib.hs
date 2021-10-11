@@ -1,3 +1,5 @@
+{-# LANGUAGE NamedFieldPuns #-}
+
 module Lib
   ( someFunc,
     parseInput,
@@ -7,7 +9,8 @@ module Lib
     rotate,
     Position (..),
     moveSteps,
-    movement
+    movement,
+    solution1,
   )
 where
 
@@ -93,4 +96,10 @@ movement (dir, pos) (x : xpath) =
         Lib.Right s -> s
         Lib.Left s -> s
       newPos = moveSteps steps (newDir, pos)
-   in trace ("\nnewPos" ++ show newPos) $ movement newPos xpath
+   in movement newPos xpath
+
+findPath :: Position -> Int
+findPath (Position {row, col}) = abs row + abs col
+
+solution1 :: String -> Int
+solution1 input = findPath . snd . movement (North, Position 0 0) . parseInput $ input
