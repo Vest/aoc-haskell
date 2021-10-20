@@ -35,16 +35,16 @@ instance Eq Direction where
   _ == _ = False
 
 instance Show Direction where
-  show (North) = "N"
-  show (South) = "S"
-  show (East) = "E"
-  show (West) = "W"
+  show North = "N"
+  show South = "S"
+  show East = "E"
+  show West = "W"
 
 instance Eq Position where
   p1 == p2 = row p1 == row p2 && col p1 == col p2
 
 instance Show Position where
-  show (Day1.Position row col) = "(" ++ (show col) ++ ", " ++ (show row) ++ ")"
+  show (Day1.Position row col) = "(" ++ show col ++ ", " ++ show row ++ ")"
 
 parseStep :: String -> Maybe Rotate
 parseStep stepString = case rotationChar of
@@ -56,7 +56,7 @@ parseStep stepString = case rotationChar of
     steps = read . tail $ stepString :: Int
 
 parseInput :: String -> [Rotate]
-parseInput = catMaybes . map parseStep . split (dropDelims . dropBlanks $ onSublist ", ")
+parseInput = mapMaybe parseStep . split (dropDelims . dropBlanks $ onSublist ", ")
 
 rotate :: Rotate -> Direction -> Direction
 rotate rot dir = case (rot, dir) of
@@ -68,6 +68,8 @@ rotate rot dir = case (rot, dir) of
   (Day1.Left _, South) -> East
   (Day1.Left _, East) -> North
   (Day1.Left _, West) -> South
+
+{- Day 1.1 -}
 
 moveSteps :: Int -> (Direction, Position) -> (Direction, Position)
 moveSteps steps (North, pos) = (North, pos {row = row pos + steps})
@@ -90,3 +92,23 @@ findPath Position {row, col} = abs row + abs col
 
 solution1 :: String -> Int
 solution1 = findPath . snd . movement (North, Position 0 0) . parseInput
+
+{- Day 1.2 -}
+walk :: Int -> (Direction, Position) -> (Direction, [Position])
+walk steps (North, pos) = (North, map (\step -> pos {row = row pos + step}) [1 .. steps])
+walk steps (East, pos) = (East, map (\step -> pos {col = col pos + step}) [1 .. steps])
+walk steps (West, pos) = (West, map (\step -> pos {col = col pos - step}) [1 .. steps])
+walk steps (South, pos) = (South, map (\step -> pos {row = row pos - step}) [1 .. steps])
+
+walking :: (Direction, Position) -> [Position] -> [Rotate] -> (Direction, [Position])
+walking (dir, pos) path [] = (dir, path)
+walking (dir, pos) path (x : xpath) =
+  let newDir = rotate x dir
+      steps = case x of
+        Day1.Right s -> s
+        Day1.Left s -> s
+      newPath = walk steps (newDir, pos)
+      newPos = last . snd $ newPath
+   in walking (newDir, newPos) (path ++ snd newPath) xpath
+
+{-findIntersection :: [Position] -> Position-}
