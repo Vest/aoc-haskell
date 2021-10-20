@@ -28,6 +28,9 @@ library:
     - base >= 4.7 && < 5
     - split
     - http-client
+    - http-conduit
+    - bytestring
+    - utf8-string
 
 executables:
   aoc-haskell:

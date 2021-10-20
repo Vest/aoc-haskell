@@ -86,7 +86,7 @@ movement (dir, pos) (x : xpath) =
    in movement newPos xpath
 
 findPath :: Position -> Int
-findPath (Position {row, col}) = abs row + abs col
+findPath Position {row, col} = abs row + abs col
 
 solution1 :: String -> Int
-solution1 input = findPath . snd . movement (North, Position 0 0) . parseInput $ input
+solution1 = findPath . snd . movement (North, Position 0 0) . parseInput
