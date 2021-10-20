@@ -1,10 +1,10 @@
 name: aoc-haskell
 version: 0.1.0.0
-github: "githubuser/aoc-haskell"
+github: "Vest/aoc-haskell"
 license: BSD3
-author: "Author name here"
-maintainer: "example@example.com"
-copyright: "2021 Author name here"
+author: "Vest"
+maintainer: "Vest@users.noreply.github.com"
+copyright: "2021 Vest"
 
 extra-source-files:
   - README.md
@@ -17,25 +17,32 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description: Please see the README on GitHub at <https://github.com/githubuser/aoc-haskell#readme>
-
-dependencies:
-  - base >= 4.7 && < 5
-  - HUnit
-  - split
+description: Please see the README on GitHub at <https://github.com/Vest/aoc-haskell#readme>
 
 library:
-  source-dirs: src
+  source-dirs: src/
+  exposed-modules:
+    - Advent
+    - Day1
+  dependencies:
+    - base >= 4.7 && < 5
+    - split
+    - http-client
+    - http-conduit
+    - bytestring
+    - utf8-string
 
 executables:
-  aoc-haskell-exe:
+  aoc-haskell:
     main: Main.hs
-    source-dirs: app
+    source-dirs:
+      - app
     ghc-options:
       - -threaded
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
+      - base >= 4.7 && < 5
       - aoc-haskell
 
 tests:
@@ -47,5 +54,6 @@ tests:
       - -rtsopts
       - -with-rtsopts=-N
     dependencies:
-      - aoc-haskell
+      - base >= 4.7 && < 5
       - HUnit
+      - aoc-haskell

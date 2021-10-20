@@ -1,22 +1,9 @@
 {-# LANGUAGE NamedFieldPuns #-}
 
-module Lib
-  ( someFunc,
-    parseInput,
-    parseStep,
-    Rotate (Right, Left),
-    Direction (North, South, East, West),
-    rotate,
-    Position (..),
-    moveSteps,
-    movement,
-    solution1,
-  )
-where
+module Day1 where
 
 import Data.List.Split
 import Data.Maybe
-import Debug.Trace
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -32,13 +19,13 @@ data Position = Position
 data Direction = North | South | East | West
 
 instance Eq Rotate where
-  Lib.Right s1 == Lib.Right s2 = s1 == s2
-  Lib.Left s1 == Lib.Left s2 = s1 == s2
+  Day1.Right s1 == Day1.Right s2 = s1 == s2
+  Day1.Left s1 == Day1.Left s2 = s1 == s2
   _ == _ = False
 
 instance Show Rotate where
-  show (Lib.Right steps) = "R" ++ show steps
-  show (Lib.Left steps) = "L" ++ show steps
+  show (Day1.Right steps) = "R" ++ show steps
+  show (Day1.Left steps) = "L" ++ show steps
 
 instance Eq Direction where
   North == North = True
@@ -57,12 +44,12 @@ instance Eq Position where
   p1 == p2 = row p1 == row p2 && col p1 == col p2
 
 instance Show Position where
-  show (Lib.Position row col) = "(" ++ (show col) ++ ", " ++ (show row) ++ ")"
+  show (Day1.Position row col) = "(" ++ (show col) ++ ", " ++ (show row) ++ ")"
 
 parseStep :: String -> Maybe Rotate
 parseStep stepString = case rotationChar of
-  'R' -> Just . Lib.Right $ steps
-  'L' -> Just . Lib.Left $ steps
+  'R' -> Just . Day1.Right $ steps
+  'L' -> Just . Day1.Left $ steps
   _ -> Nothing
   where
     rotationChar = head stepString
@@ -73,14 +60,14 @@ parseInput = catMaybes . map parseStep . split (dropDelims . dropBlanks $ onSubl
 
 rotate :: Rotate -> Direction -> Direction
 rotate rot dir = case (rot, dir) of
-  (Lib.Right _, North) -> East
-  (Lib.Right _, South) -> West
-  (Lib.Right _, East) -> South
-  (Lib.Right _, West) -> North
-  (Lib.Left _, North) -> West
-  (Lib.Left _, South) -> East
-  (Lib.Left _, East) -> North
-  (Lib.Left _, West) -> South
+  (Day1.Right _, North) -> East
+  (Day1.Right _, South) -> West
+  (Day1.Right _, East) -> South
+  (Day1.Right _, West) -> North
+  (Day1.Left _, North) -> West
+  (Day1.Left _, South) -> East
+  (Day1.Left _, East) -> North
+  (Day1.Left _, West) -> South
 
 moveSteps :: Int -> (Direction, Position) -> (Direction, Position)
 moveSteps steps (North, pos) = (North, pos {row = row pos + steps})
@@ -93,13 +80,13 @@ movement (dir, pos) [] = (dir, pos)
 movement (dir, pos) (x : xpath) =
   let newDir = rotate x dir
       steps = case x of
-        Lib.Right s -> s
-        Lib.Left s -> s
+        Day1.Right s -> s
+        Day1.Left s -> s
       newPos = moveSteps steps (newDir, pos)
    in movement newPos xpath
 
 findPath :: Position -> Int
-findPath (Position {row, col}) = abs row + abs col
+findPath Position {row, col} = abs row + abs col
 
 solution1 :: String -> Int
-solution1 input = findPath . snd . movement (North, Position 0 0) . parseInput $ input
+solution1 = findPath . snd . movement (North, Position 0 0) . parseInput
