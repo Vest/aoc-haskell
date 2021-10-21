@@ -5,11 +5,11 @@ module Advent (getAnswers) where
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.UTF8 as BSU
 import Data.Functor
-import Day1 (solution1)
+import Day1 (solution)
 import Network.HTTP.Simple
 
 getAnswers :: String -> IO [String]
-getAnswers token = sequence [input 1 <&> (show . Day1.solution1)]
+getAnswers token = sequence [input 1 <&> Day1.solution]
   where
     input = getInput token
 

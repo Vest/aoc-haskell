@@ -2,6 +2,7 @@
 
 module Day1 where
 
+import Data.List
 import Data.List.Split
 import Data.Maybe
 
@@ -111,4 +112,12 @@ walking (dir, pos) path (x : xpath) =
       newPos = last . snd $ newPath
    in walking (newDir, newPos) (path ++ snd newPath) xpath
 
-{-findIntersection :: [Position] -> Position-}
+{- Stolen from https://stackoverflow.com/a/34045121 -}
+pairs :: [Position] -> [(Position, Position)]
+pairs l = [(x, y) | (x : ys) <- tails l, y <- ys]
+
+solution2 :: String -> Int
+solution2 = findPath . fst . head . filter (uncurry (==)) . pairs . snd . walking (North, Position 0 0) [Position 0 0] . parseInput
+
+solution :: String -> String
+solution input = (show . solution1 $ input) ++ ", " ++ (show . solution2 $ input)
