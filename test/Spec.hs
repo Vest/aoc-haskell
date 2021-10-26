@@ -1,5 +1,6 @@
 import Days.Day1 as D1
 import Days.Day2 as D2
+import Days.Day3 as D3
 import Test.HUnit
 
 foo :: Int -> (Int, Int)
@@ -16,3 +17,4 @@ main = do
   _ <- runTestTT tests
   runTestTT D1.tests'
   runTestTT D2.tests'
+  runTestTT D3.tests'

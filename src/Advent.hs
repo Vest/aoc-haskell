@@ -7,13 +7,15 @@ import qualified Data.ByteString.UTF8 as BSU
 import Data.Functor
 import Day1 (solution)
 import Day2 (solution)
+import Day3 (solution)
 import Network.HTTP.Simple
 
 getAnswers :: String -> IO [String]
 getAnswers token =
   sequence
     [ input 1 <&> Day1.solution,
-      input 2 <&> Day2.solution
+      input 2 <&> Day2.solution,
+      input 3 <&> Day3.solution
     ]
   where
     input = getInput token
