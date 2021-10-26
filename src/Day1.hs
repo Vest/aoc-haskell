@@ -102,7 +102,7 @@ walk steps (West, pos) = (West, map (\step -> pos {col = col pos - step}) [1 .. 
 walk steps (South, pos) = (South, map (\step -> pos {row = row pos - step}) [1 .. steps])
 
 walking :: (Direction, Position) -> [Position] -> [Rotate] -> (Direction, [Position])
-walking (dir, pos) path [] = (dir, path)
+walking (dir, _) path [] = (dir, path)
 walking (dir, pos) path (x : xpath) =
   let newDir = rotate x dir
       steps = case x of
