@@ -3,7 +3,9 @@
 
 module Day4 where
 
+import Data.List
 import qualified Data.Map as M
+import Data.Maybe
 import Data.Sort
 
 data RawRoom = RawRoom {name, sectorID, checksum :: String}
@@ -62,3 +64,13 @@ solution1 =
 
 solution :: String -> String
 solution = show . solution1
+
+decryptCaesar :: Int -> String -> String
+decryptCaesar step =
+  let alphabet = ['a' .. 'z']
+      lenAlphabet = length alphabet
+   in map
+        ( \a -> case elemIndex a alphabet of
+            Just index -> alphabet !! ((index + step) `rem` lenAlphabet)
+            Nothing -> ' '
+        )

@@ -50,5 +50,7 @@ tests' =
                   ('h', 1),
                   ('g', 1)
                 ]
-            )
+            ),
+            "day4" ~: "decryptCaesar(qzmt-zixmtkozy-ivhz, 343)" ~: "very encrypted name"
+                    ~=? Day4.decryptCaesar 343 "qzmt-zixmtkozy-ivhz"
     ]
