@@ -53,7 +53,12 @@ countChecksum =
     . M.toList
 
 solution1 :: String -> Int
-solution1 _ = 1
+solution1 =
+  sum
+    . map (\Room {sectorID} -> sectorID)
+    . filter (\Room {name, checksum} -> countChecksum name == checksum)
+    . map (fromRawToRoom . parseToRawRoom)
+    . lines
 
 solution :: String -> String
-solution input = "test" ++ input
+solution = show . solution1
