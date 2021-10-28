@@ -34,6 +34,8 @@ library:
     - http-conduit
     - bytestring
     - utf8-string
+    - containers
+    - sort
 
 executables:
   aoc-haskell:
@@ -60,3 +62,4 @@ tests:
       - base >= 4.7 && < 5
       - HUnit
       - aoc-haskell
+      - containers
