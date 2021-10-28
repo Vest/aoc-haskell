@@ -3,7 +3,9 @@
 
 module Day4 where
 
+import Data.List
 import qualified Data.Map as M
+import Data.Maybe
 import Data.Sort
 
 data RawRoom = RawRoom {name, sectorID, checksum :: String}
@@ -21,7 +23,7 @@ parseToRawRoom line =
   let reversedLine = reverse line
       reversedChecksum = take 5 $ drop 1 $ take 7 reversedLine
       reversedSectorID = take 3 $ drop 7 reversedLine
-      reversedName = filter (/= '-') $ drop (7 + 3) reversedLine
+      reversedName = drop (7 + 3 + 1) reversedLine
    in RawRoom
         { name = reverse reversedName,
           sectorID = reverse reversedSectorID,
@@ -30,7 +32,7 @@ parseToRawRoom line =
 
 fromRawToRoom :: RawRoom -> Room
 fromRawToRoom RawRoom {name = rawName, sectorID = rawSectorId, checksum = rawChecksum} =
-  let name = M.fromListWith (+) [(c, 1) | c <- rawName]
+  let name = M.fromListWith (+) [(c, 1) | c <- filter (/= '-') rawName]
       sectorID = read rawSectorId :: Int
       checksum = rawChecksum
    in Room
@@ -61,4 +63,23 @@ solution1 =
     . lines
 
 solution :: String -> String
-solution = show . solution1
+solution input = (show . solution1 $ input) ++ ", " ++ (show . fst $ solution2 "north" input)
+
+decryptCaesar :: Int -> String -> String
+decryptCaesar step =
+  let alphabet = ['a' .. 'z']
+      lenAlphabet = length alphabet
+   in map
+        ( \a -> case elemIndex a alphabet of
+            Just index -> alphabet !! ((index + step) `rem` lenAlphabet)
+            Nothing -> ' '
+        )
+
+solution2 :: String -> String -> (Int, String)
+solution2 textToFind =
+  fromMaybe (-1, "Nothing")
+    . find (\(_, decryptedName) -> textToFind `isInfixOf` decryptedName)
+    . map (\(Room {name = _, sectorID, checksum = _}, name) -> (sectorID, decryptCaesar sectorID name))
+    . filter (\(Room {name, checksum}, _) -> countChecksum name == checksum)
+    . map ((\raw -> (fromRawToRoom raw, name (raw :: RawRoom))) . parseToRawRoom)
+    . lines

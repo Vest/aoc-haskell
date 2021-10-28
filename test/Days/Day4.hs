@@ -18,7 +18,7 @@ tests' =
           ),
       "day4" ~: "parseToRawRoom aaaaa-bbb-z-y-x-123[abxyz]"
         ~: RawRoom
-          { name = "aaaaabbbzyx",
+          { name = "aaaaa-bbb-z-y-x",
             sectorID = "123",
             checksum = "abxyz"
           }
@@ -50,5 +50,7 @@ tests' =
                   ('h', 1),
                   ('g', 1)
                 ]
-            )
+            ),
+            "day4" ~: "decryptCaesar(qzmt-zixmtkozy-ivhz, 343)" ~: "very encrypted name"
+                    ~=? Day4.decryptCaesar 343 "qzmt-zixmtkozy-ivhz"
     ]
