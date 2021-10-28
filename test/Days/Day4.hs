@@ -18,7 +18,7 @@ tests' =
           ),
       "day4" ~: "parseToRawRoom aaaaa-bbb-z-y-x-123[abxyz]"
         ~: RawRoom
-          { name = "aaaaabbbzyx",
+          { name = "aaaaa-bbb-z-y-x",
             sectorID = "123",
             checksum = "abxyz"
           }
