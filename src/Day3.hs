@@ -22,4 +22,16 @@ solution1 :: String -> Int
 solution1 = length . filter isValid . parseInput
 
 solution :: String -> String
-solution = show . solution1
+solution input = (show . solution1 $ input) ++ ", " ++ (show . solution2 $ input)
+
+transposeList :: [Triangle] -> [Triangle]
+transposeList [t1, t2, t3] =
+  let (t1x, t1y, t1z) = t1
+      (t2x, t2y, t2z) = t2
+      (t3x, t3y, t3z) = t3
+   in [(t1x, t2x, t3x), (t1y, t2y, t3y), (t1z, t2z, t3z)]
+transposeList (t1 : t2 : t3 : ts) = transposeList [t1, t2, t3] ++ transposeList ts
+transposeList _ = []
+
+solution2 :: String -> Int
+solution2 = length . filter isValid . transposeList . parseInput
