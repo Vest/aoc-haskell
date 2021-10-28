@@ -1,5 +1,5 @@
 name: aoc-haskell
-version: 0.3.0.0
+version: 0.4.0.0
 github: "Vest/aoc-haskell"
 license: BSD3
 author: "Vest"
@@ -26,6 +26,7 @@ library:
     - Day1
     - Day2
     - Day3
+    - Day4
   dependencies:
     - base >= 4.7 && < 5
     - split
@@ -33,6 +34,8 @@ library:
     - http-conduit
     - bytestring
     - utf8-string
+    - containers
+    - sort
 
 executables:
   aoc-haskell:
@@ -59,3 +62,4 @@ tests:
       - base >= 4.7 && < 5
       - HUnit
       - aoc-haskell
+      - containers
