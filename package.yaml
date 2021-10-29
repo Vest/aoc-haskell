@@ -28,6 +28,7 @@ library:
     - Day3
     - Day4
     - Day5
+    - DayX
   dependencies:
     - base >= 4.7 && < 5
     - split
@@ -37,6 +38,7 @@ library:
     - utf8-string
     - containers
     - sort
+    - pureMD5
 
 executables:
   aoc-haskell:

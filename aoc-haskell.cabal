@@ -31,8 +31,8 @@ library
       Day3
       Day4
       Day5
-  other-modules:
       DayX
+  other-modules:
       Paths_aoc_haskell
   hs-source-dirs:
       src/
@@ -42,6 +42,7 @@ library
     , containers
     , http-client
     , http-conduit
+    , pureMD5
     , sort
     , split
     , utf8-string
