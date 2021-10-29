@@ -2,6 +2,7 @@ import Days.Day1 as D1
 import Days.Day2 as D2
 import Days.Day3 as D3
 import Days.Day4 as D4
+import Days.Day5 as D5
 import Test.HUnit
 
 foo :: Int -> (Int, Int)
@@ -20,3 +21,4 @@ main = do
   runTestTT D2.tests'
   runTestTT D3.tests'
   runTestTT D4.tests'
+  runTestTT D5.tests'
