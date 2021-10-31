@@ -20,7 +20,7 @@ jobs:
         ghc-version: '8.10.7'
         # cabal-version: 'latest'
         enable-stack: true
-        stack-version: 'latest'
+        stack-version: '2.3.7'
 
     - name: Cache ~/.stack
       uses: actions/cache@v2
