@@ -20,17 +20,14 @@ jobs:
         enable-stack: true
         stack-version: 'latest'
 
-    - name: Cache
-      uses: actions/cache@v1
-      env:
-        cache-name: cache-cabal
+    - name: Cache ~/.stack
+      uses: actions/cache@v2
       with:
-        path: ~/.cabal
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
+        path: |
+          ~/.stack
+        key: ${{ runner.os }}-${{ matrix.ghc }}-stack-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+          ${{ runner.os }}-${{ matrix.ghc }}-stack-
 
     - name: Install dependencies
       run: |
