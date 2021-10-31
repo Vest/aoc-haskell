@@ -1,5 +1,5 @@
 name: aoc-haskell
-version: 0.6.0.0
+version: 0.7.0.0
 github: "Vest/aoc-haskell"
 license: BSD3
 author: "Vest"
@@ -29,6 +29,7 @@ library:
     - Day4
     - Day5
     - Day6
+    - Day7
     - DayX
   dependencies:
     - base >= 4.7 && < 5
