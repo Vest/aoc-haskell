@@ -5,7 +5,7 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           aoc-haskell
-version:        0.5.0.0
+version:        0.6.0.0
 description:    Please see the README on GitHub at <https://github.com/Vest/aoc-haskell#readme>
 homepage:       https://github.com/Vest/aoc-haskell#readme
 bug-reports:    https://github.com/Vest/aoc-haskell/issues
@@ -31,6 +31,7 @@ library
       Day3
       Day4
       Day5
+      Day6
       DayX
   other-modules:
       Paths_aoc_haskell
@@ -69,6 +70,7 @@ test-suite aoc-haskell-test
       Days.Day3
       Days.Day4
       Days.Day5
+      Days.Day6
       Days.DayX
       Paths_aoc_haskell
   hs-source-dirs:
