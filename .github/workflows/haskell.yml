@@ -12,29 +12,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup Haskell
-      uses: actions/setup-haskell@v1
-      with:
-        ghc-version: '8.10.7'
-        # cabal-version: 'latest'
-        enable-stack: true
-        stack-version: '2.7.3'
+      - uses: actions/checkout@v2
 
-    - name: Cache ~/.stack
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.stack
-        key: ${{ runner.os }}-${{ matrix.ghc }}-stack-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.ghc }}-stack-
+      - name: Setup Haskell
+        uses: actions/setup-haskell@v1
+        with:
+          ghc-version: '8.10'
+          # cabal-version: 'latest'
+          enable-stack: true
+          stack-version: '2.7.3'
 
-    - name: Install dependencies
-      run: |
-        stack build --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
-    - name: Build
-      run: stack build --test --bench --no-run-tests --no-run-benchmarks
-    - name: Run tests
-      run: stack test
+      - name: Cache ~/.stack
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.stack
+          key: ${{ runner.os }}-${{ matrix.ghc }}-stack-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.ghc }}-stack-
+
+      - name: Install dependencies
+        run: |
+          stack build --test --bench --no-run-tests --no-run-benchmarks --only-dependencies
+      - name: Build
+        run: stack build --test --bench --no-run-tests --no-run-benchmarks
+      - name: Run tests
+        run: stack test
