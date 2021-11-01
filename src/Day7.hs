@@ -21,5 +21,12 @@ parseLine =
     . zip [0 ..]
     . splitOneOf "[]"
 
+isABBA :: String -> Bool
+isABBA (a : b : c : d : abba) =
+  if a == d && b == c && a /= b
+    then True
+    else isABBA (b : c : d : abba)
+isABBA _ = False
+
 solution :: String -> String
 solution _ = "output"
