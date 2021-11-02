@@ -1,6 +1,6 @@
 module Day7 where
 
-import Data.List (find)
+import Data.List (find, intersect)
 import Data.List.Split (splitOneOf)
 import Data.Maybe (isJust, isNothing)
 
@@ -32,7 +32,28 @@ isIPv7Valid :: IPv7 -> Bool
 isIPv7Valid IPv7 {address = addr, hypenet = hyp} = (isJust . find isABBA $ addr) && (isNothing . find isABBA $ hyp)
 
 solution :: String -> String
-solution = show . solution1
+solution input = (show . solution1 $input) ++ ", " ++ (show . solution2 $ input)
 
 solution1 :: String -> Int
 solution1 = length . filter isIPv7Valid . map parseLine . lines
+
+isABA :: Char -> Char -> Char -> Bool
+isABA a b c =
+  a == c && a /= b
+
+findABAs :: String -> [String]
+findABAs str = map (\(a, b, c) -> [a, b, c]) . filter (\(a, b, c) -> isABA a b c) $ zip3 str (drop 1 str) (drop 2 str)
+
+fromABAtoBAB :: String -> String
+fromABAtoBAB [a, b, _] = [b, a, b]
+fromABAtoBAB l = error $ "Unexpected list: " ++ show l
+
+sslSupport :: IPv7 -> Bool
+sslSupport IPv7 {address = addr, hypenet = hyp} =
+  let addrABAs = map fromABAtoBAB . concatMap findABAs $ addr
+      hypABAs = concatMap findABAs hyp
+      common = addrABAs `intersect` hypABAs
+   in not (null common)
+
+solution2 :: String -> Int
+solution2 = length . filter sslSupport . map parseLine . lines
