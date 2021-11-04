@@ -80,6 +80,17 @@ executeStatement (Rectangle width height) =
               else replicate (min width lineLength) '#' ++ drop width line
     )
     [1 ..]
+executeStatement (RotateRow row shift) =
+  zipWith
+    ( \index line ->
+        let lineLength = length line
+         in if index == row
+              then
+                let longLine = cycle line
+                 in take lineLength (drop (lineLength - shift) longLine)
+              else line
+    )
+    [0 ..]
 
 solution :: String -> String
 solution _ = "output"

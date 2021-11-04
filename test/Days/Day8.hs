@@ -24,5 +24,6 @@ tests' =
       "day8" ~: "generateScreen(3 2)" ~: ["...", "..."] ~=? Day8.generateScreen 3 2,
       "day8" ~: "rect(3 2)" ~: ["###....", "###....", "......."] ~=? Day8.executeStatement (Rectangle 3 2) (Day8.generateScreen 7 3),
       "day8" ~: "rect(0 0)" ~: [".......", ".......", "......."] ~=? Day8.executeStatement (Rectangle 0 0) (Day8.generateScreen 7 3),
-      "day8" ~: "rect(100 100)" ~: ["#######", "#######", "#######"] ~=? Day8.executeStatement (Rectangle 100 100) (Day8.generateScreen 7 3)
+      "day8" ~: "rect(100 100)" ~: ["#######", "#######", "#######"] ~=? Day8.executeStatement (Rectangle 100 100) (Day8.generateScreen 7 3),
+      "day8" ~: "rotate column x=1 by 1" ~: ["....#.#", "###....", ".#....."] ~=? Day8.executeStatement (RotateRow 0 4) ["#.#....", "###....", ".#....."]
     ]
