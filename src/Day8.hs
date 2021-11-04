@@ -71,7 +71,7 @@ generateScreen :: Int -> Int -> Screen
 generateScreen cols rows = replicate rows (replicate cols '.')
 
 executeStatement :: Statement -> Screen -> Screen
-executeStatement (Rectangle width height) =
+executeStatement (Rectangle width height) screen =
   zipWith
     ( \index line ->
         let lineLength = length line
@@ -80,7 +80,8 @@ executeStatement (Rectangle width height) =
               else replicate (min width lineLength) '#' ++ drop width line
     )
     [1 ..]
-executeStatement (RotateRow row shift) =
+    screen
+executeStatement (RotateRow row shift) screen =
   zipWith
     ( \index line ->
         let lineLength = length line
@@ -91,6 +92,21 @@ executeStatement (RotateRow row shift) =
               else line
     )
     [0 ..]
+    screen
+executeStatement (RotateColumn col shift) screen =
+  transpose
+    . executeStatement (RotateRow col shift)
+    . transpose
+    $ screen
+executeStatement NOP screen = screen
+
+solution1 :: Int -> Int -> String -> Int
+solution1 width height input =
+  let ast = buildAST input
+      startScreen = generateScreen width height
+   in length
+        . filter (== '#')
+        $ concat $ foldl (flip executeStatement) startScreen ast
 
 solution :: String -> String
-solution _ = "output"
+solution input = show $ solution1 50 6 input

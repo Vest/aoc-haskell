@@ -6,7 +6,7 @@ import Test.HUnit
 tests' :: Test
 tests' =
   test
-    [ "day8" ~: "solution1(nothing)" ~: "nothing" ~=? "nothing",
+    [ "day8" ~: "solution1(sampleData)" ~: 6 ~=? Day8.solution1 7 3 "rect 3x2\nrotate column x=1 by 1\nrotate row y=0 by 4\nrotate column x=1 by 1",
       "day8" ~: "safeStringToInt(a)" ~: (0, 0) ~=? Day8.safeStringToInt "a",
       "day8" ~: "safeStringToInt(5)" ~: (5, 1) ~=? Day8.safeStringToInt "5",
       "day8" ~: "safeStringToInt(10)" ~: (10, 2) ~=? Day8.safeStringToInt "10",
@@ -25,5 +25,7 @@ tests' =
       "day8" ~: "rect(3 2)" ~: ["###....", "###....", "......."] ~=? Day8.executeStatement (Rectangle 3 2) (Day8.generateScreen 7 3),
       "day8" ~: "rect(0 0)" ~: [".......", ".......", "......."] ~=? Day8.executeStatement (Rectangle 0 0) (Day8.generateScreen 7 3),
       "day8" ~: "rect(100 100)" ~: ["#######", "#######", "#######"] ~=? Day8.executeStatement (Rectangle 100 100) (Day8.generateScreen 7 3),
-      "day8" ~: "rotate column x=1 by 1" ~: ["....#.#", "###....", ".#....."] ~=? Day8.executeStatement (RotateRow 0 4) ["#.#....", "###....", ".#....."]
+      "day8" ~: "rotate column x=1 by 1" ~: ["#.#....", "###....", ".#....."] ~=? Day8.executeStatement (RotateColumn 1 1) ["###....", "###....", "......."],
+      "day8" ~: "rotate row y=0 by 4" ~: ["....#.#", "###....", ".#....."] ~=? Day8.executeStatement (RotateRow 0 4) ["#.#....", "###....", ".#....."],
+      "day8" ~: "rotate column x=1 by 1" ~: [".#..#.#", "#.#....", ".#....."] ~=? Day8.executeStatement (RotateColumn 1 1) ["....#.#", "###....", ".#....."]
     ]

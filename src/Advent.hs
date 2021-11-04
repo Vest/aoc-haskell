@@ -12,6 +12,7 @@ import Day4 (solution)
 import Day5 (solution)
 import Day6 (solution)
 import Day7 (solution)
+import Day8 (solution)
 import Network.HTTP.Simple
 
 getAnswers :: String -> IO [String]
@@ -23,7 +24,8 @@ getAnswers token =
       input 4 <&> Day4.solution,
       -- input 5 <&> Day5.solution,
       input 6 <&> Day6.solution,
-      input 7 <&> Day7.solution
+      input 7 <&> Day7.solution,
+      input 8 <&> Day8.solution
     ]
   where
     input = getInput token
