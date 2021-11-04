@@ -21,5 +21,8 @@ tests' =
       "day8" ~: "parseStatement(rotate column x=1 by 1)" ~: RotateColumn 1 1 ~=? Day8.parseStatement (Day8.parseToTokens [] "rotate column x=1 by 1"),
       "day8" ~: "parseStatement(rotate row y=0 by 4)" ~: RotateRow 0 4 ~=? Day8.parseStatement (Day8.parseToTokens [] "rotate row y=0 by 4"),
       "day8" ~: "buildAST(sampleData)" ~: [Rectangle 3 2, RotateColumn 1 1, RotateRow 0 4, RotateColumn 1 1] ~=? Day8.buildAST "rect 3x2\nrotate column x=1 by 1\nrotate row y=0 by 4\nrotate column x=1 by 1",
-      "day8" ~: "generateScreen(3 2)" ~: ["...", "..."] ~=? Day8.generateScreen 3 2
+      "day8" ~: "generateScreen(3 2)" ~: ["...", "..."] ~=? Day8.generateScreen 3 2,
+      "day8" ~: "rect(3 2)" ~: ["###....", "###....", "......."] ~=? Day8.executeStatement (Rectangle 3 2) (Day8.generateScreen 7 3),
+      "day8" ~: "rect(0 0)" ~: [".......", ".......", "......."] ~=? Day8.executeStatement (Rectangle 0 0) (Day8.generateScreen 7 3),
+      "day8" ~: "rect(100 100)" ~: ["#######", "#######", "#######"] ~=? Day8.executeStatement (Rectangle 100 100) (Day8.generateScreen 7 3)
     ]

@@ -8,6 +8,8 @@ data Token = Rect | Rotate | Row | Column | Value Int | Skip
 
 type AST = [Statement]
 
+type Screen = [String]
+
 data Statement = Rectangle Int Int | RotateRow Int Int | RotateColumn Int Int | NOP
   deriving (Eq, Show)
 
@@ -65,8 +67,19 @@ parseStatement _ = NOP
 buildAST :: String -> AST
 buildAST = map (parseStatement . parseToTokens []) . lines
 
-generateScreen :: Int -> Int -> [String]
+generateScreen :: Int -> Int -> Screen
 generateScreen cols rows = replicate rows (replicate cols '.')
+
+executeStatement :: Statement -> Screen -> Screen
+executeStatement (Rectangle width height) =
+  zipWith
+    ( \index line ->
+        let lineLength = length line
+         in if index > height
+              then line
+              else replicate (min width lineLength) '#' ++ drop width line
+    )
+    [1 ..]
 
 solution :: String -> String
 solution _ = "output"
