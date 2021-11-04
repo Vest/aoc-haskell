@@ -6,11 +6,16 @@ import Data.List
 data Token = Rect | Rotate | Row | Column | Value Int | Skip
   deriving (Eq, Show)
 
-parseToTokens :: String -> [Token] -> [Token]
-parseToTokens "" tokens = tokens
-parseToTokens str tokens =
+type AST = [Statement]
+
+data Statement = Rectangle Int Int | RotateRow Int Int | RotateColumn Int Int | NOP
+  deriving (Eq, Show)
+
+parseToTokens :: [Token] -> String -> [Token]
+parseToTokens tokens "" = tokens
+parseToTokens tokens str =
   let (token, skipToken) = getNextToken str
-   in parseToTokens (drop skipToken str) (tokens ++ [token])
+   in parseToTokens (tokens ++ [token]) (drop skipToken str)
 
 getNextToken :: String -> (Token, Int)
 getNextToken code
@@ -50,6 +55,15 @@ safeStringToInt str =
    in if null parsed
         then (0, 0)
         else (read parsed :: Int, length parsed)
+
+parseStatement :: [Token] -> Statement
+parseStatement [Rect, Value a, Skip, Value b] = Rectangle a b
+parseStatement [Rotate, Column, Value x, Skip, Value y] = RotateColumn x y
+parseStatement [Rotate, Row, Value y, Skip, Value x] = RotateRow y x
+parseStatement _ = NOP
+
+buildAST :: String -> AST
+buildAST = map (parseStatement . parseToTokens []) . lines
 
 solution :: String -> String
 solution _ = "output"
