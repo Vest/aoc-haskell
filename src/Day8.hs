@@ -65,5 +65,8 @@ parseStatement _ = NOP
 buildAST :: String -> AST
 buildAST = map (parseStatement . parseToTokens []) . lines
 
+generateScreen :: Int -> Int -> [String]
+generateScreen cols rows = replicate rows (replicate cols '.')
+
 solution :: String -> String
 solution _ = "output"
