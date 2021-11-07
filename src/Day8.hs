@@ -1,7 +1,8 @@
 module Day8 where
 
 import Data.Bifunctor
-import Data.List
+import Data.List (isPrefixOf, transpose)
+import Data.List.Split
 
 data Token = Rect | Rotate | Row | Column | Value Int | Skip
   deriving (Eq, Show)
@@ -109,4 +110,12 @@ solution1 width height input =
         $ concat $ foldl (flip executeStatement) startScreen ast
 
 solution :: String -> String
-solution input = show $ solution1 50 6 input
+solution input = show (solution1 50 6 input) ++ ", Message is:\n" ++ solution2 50 6 input
+
+solution2 :: Int -> Int -> String -> String
+solution2 width height input =
+  let ast = buildAST input
+      startScreen = generateScreen width height
+   in unlines $
+        map (unwords . chunksOf 5) $
+          foldl (flip executeStatement) startScreen ast
