@@ -20,4 +20,14 @@ solution1 :: String -> Int
 solution1 = length . extractInput
 
 solution :: String -> String
-solution = show . solution1
+solution input = (show . solution1 $ input) ++ ", " ++ (show . solution2 $ input)
+
+extractIndefinitely :: String -> String
+extractIndefinitely input =
+  let extractedInput = extractInput input
+   in if input == extractedInput
+        then input
+        else extractIndefinitely extractedInput
+
+solution2 :: String -> Int
+solution2 = length . extractIndefinitely
