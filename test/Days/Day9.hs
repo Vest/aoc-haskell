@@ -12,5 +12,10 @@ tests' =
       "day9" ~: "extractInput((3x3)XYZ)" ~: "XYZXYZXYZ" ~=? Day9.extractInput "(3x3)XYZ",
       "day9" ~: "extractInput(A(2x2)BCD(2x2)EFG)" ~: "ABCBCDEFEFG" ~=? Day9.extractInput "A(2x2)BCD(2x2)EFG",
       "day9" ~: "extractInput((6x1)(1x3)A)" ~: "(1x3)A" ~=? Day9.extractInput "(6x1)(1x3)A",
-      "day9" ~: "extractInput(X(8x2)(3x3)ABCY)" ~: "X(3x3)ABC(3x3)ABCY" ~=? Day9.extractInput "X(8x2)(3x3)ABCY"
+      "day9" ~: "extractInput(X(8x2)(3x3)ABCY)" ~: "X(3x3)ABC(3x3)ABCY" ~=? Day9.extractInput "X(8x2)(3x3)ABCY",
+      "day9" ~: "extractInputRecursively((3x3)XYZ)" ~: "XYZXYZXYZ" ~=? Day9.extractInputRecursively "(3x3)XYZ",
+      "day9" ~: "extractInputRecursively(X(8x2)(3x3)ABCY)" ~: "XABCABCABCABCABCABCY" ~=? Day9.extractInputRecursively "X(8x2)(3x3)ABCY",
+      "day9" ~: "extractInputRecursively((27x12)(20x12)(13x14)(7x10)(1x12)A)" ~: replicate (12 * 12 * 14 * 10 * 12) 'A' ~=? Day9.extractInputRecursively "(27x12)(20x12)(13x14)(7x10)(1x12)A",
+      "day9" ~: "getLengthRecursively((27x12)(20x12)(13x14)(7x10)(1x12)A)" ~: (12 * 12 * 14 * 10 * 12) ~=? Day9.getLengthRecursively "(27x12)(20x12)(13x14)(7x10)(1x12)A",
+      "day9" ~: "solution2((25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN)" ~: 445 ~=? Day9.solution2 "(25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN"
     ]
