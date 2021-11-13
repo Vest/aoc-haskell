@@ -7,6 +7,7 @@ import Days.Day6 as D6
 import Days.Day7 as D7
 import Days.Day8 as D8
 import Days.Day9 as D9
+import Days.Day10 as D10
 import Test.HUnit
 
 foo :: Int -> (Int, Int)
@@ -30,3 +31,4 @@ main = do
   runTestTT D7.tests'
   runTestTT D8.tests'
   runTestTT D9.tests'
+  runTestTT D10.tests'
