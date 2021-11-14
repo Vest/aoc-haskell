@@ -1,5 +1,6 @@
 module Day10 where
 
+import Data.List
 import Data.List.Split (endBy)
 import qualified Data.Map as M
 import Data.Maybe (mapMaybe)
@@ -80,6 +81,26 @@ updateBotsMap m [BotValue b, l, h] =
         (Just lv, Just hv) -> M.insert b Bot {low = lv, high = hv} m
         _ -> m
 updateBotsMap m _ = m
+
+findBotWithTwoNumbers :: M.Map Int ValueLocation -> (Int, Int)
+findBotWithTwoNumbers values =
+  let (_, _, res) =
+        M.foldlWithKey
+          ( \(stop, buf, result) k v ->
+              if stop
+                then (True, [], result)
+                else
+                  ( case find (\(_, vbuf) -> vbuf == v) buf of
+                      Nothing -> (False, (k, v) : buf, result)
+                      Just (kbuf, _) ->
+                        if k < kbuf
+                          then (True, [], (k, kbuf))
+                          else (True, [], (kbuf, k))
+                  )
+          )
+          (False, [], (0, 0))
+          values
+   in res
 
 solution :: String -> String
 solution _ = "output"
