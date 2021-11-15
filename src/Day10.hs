@@ -116,5 +116,25 @@ makeStep rules values =
 assignValues :: Bot -> (Int, Int) -> M.Map Int ValueLocation -> M.Map Int ValueLocation
 assignValues Bot {low = l, high = h} (lo, hi) = M.union (M.fromList [(lo, l), (hi, h)])
 
+solution1 :: String -> (Int, Int) -> Maybe Int
+solution1 input (lo, hi) =
+  let (rules, values) = parseInput input
+      finalState =
+        snd
+          . fromJust
+          . find fst
+          . scanl
+            ( \(stop, vals) _ ->
+                let nextState = Day10.makeStep rules vals
+                 in if stop
+                      then (True, vals)
+                      else (M.lookup lo nextState == M.lookup hi nextState, nextState)
+            )
+            (False, values)
+          $ repeat 23
+   in case M.lookup lo finalState of
+        Just (BotLocation b) -> Just b
+        _ -> Nothing
+
 solution :: String -> String
-solution _ = "output"
+solution input = show . fromJust . solution1 input $ (17, 61)
