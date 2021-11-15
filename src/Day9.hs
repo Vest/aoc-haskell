@@ -1,7 +1,5 @@
 module Day9 where
 
-import Debug.Trace
-
 extractInput :: String -> String
 extractInput (l : ls) | l `elem` ['A' .. 'Z'] = l : extractInput ls
 extractInput (l : ls)
