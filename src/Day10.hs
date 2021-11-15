@@ -3,7 +3,7 @@ module Day10 where
 import Data.List
 import Data.List.Split (endBy)
 import qualified Data.Map as M
-import Data.Maybe (mapMaybe)
+import Data.Maybe (fromJust, mapMaybe)
 
 data Bot = Bot
   { low,
@@ -82,8 +82,8 @@ updateBotsMap m [BotValue b, l, h] =
         _ -> m
 updateBotsMap m _ = m
 
-findBotWithTwoNumbers :: M.Map Int ValueLocation -> (Int, Int)
-findBotWithTwoNumbers values =
+findTwoNumbersByBot :: M.Map Int ValueLocation -> (Int, Int)
+findTwoNumbersByBot values =
   let (_, _, res) =
         M.foldlWithKey
           ( \(stop, buf, result) k v ->
@@ -101,6 +101,20 @@ findBotWithTwoNumbers values =
           (False, [], (0, 0))
           values
    in res
+
+makeStep :: M.Map Int Bot -> M.Map Int ValueLocation -> M.Map Int ValueLocation
+makeStep rules values =
+  let numbers = findTwoNumbersByBot values
+      botWithTwoNumbers = fromJust (M.lookup (fst numbers) values)
+      bot = case botWithTwoNumbers of
+        BotLocation b -> Just b
+        _ -> Nothing
+   in case bot of
+        Just b -> assignValues (fromJust (M.lookup b rules)) numbers values
+        Nothing -> values
+
+assignValues :: Bot -> (Int, Int) -> M.Map Int ValueLocation -> M.Map Int ValueLocation
+assignValues Bot {low = l, high = h} (lo, hi) = M.union (M.fromList [(lo, l), (hi, h)])
 
 solution :: String -> String
 solution _ = "output"
