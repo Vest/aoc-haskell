@@ -105,9 +105,9 @@ findTwoNumbersByBot values =
 makeStep :: M.Map Int Bot -> M.Map Int ValueLocation -> M.Map Int ValueLocation
 makeStep rules values =
   let numbers = findTwoNumbersByBot values
-      botWithTwoNumbers = fromJust (M.lookup (fst numbers) values)
+      botWithTwoNumbers =  M.lookup (fst numbers) values
       bot = case botWithTwoNumbers of
-        BotLocation b -> Just b
+        Just (BotLocation b) -> Just b
         _ -> Nothing
    in case bot of
         Just b -> assignValues (fromJust (M.lookup b rules)) numbers values
@@ -137,4 +137,29 @@ solution1 input (lo, hi) =
         _ -> Nothing
 
 solution :: String -> String
-solution input = show . fromJust . solution1 input $ (17, 61)
+solution input = (show . fromJust . solution1 input $ (17, 61)) ++ ", " ++ (show . solution2 $ input)
+
+solution2 :: String -> Int
+solution2 input =
+  let (rules, values) = parseInput input
+      finalState =
+        snd
+          . fromJust
+          . find fst
+          . scanl
+            ( \(stop, vals) _ ->
+                let nextState = Day10.makeStep rules vals
+                 in if stop
+                      then (True, vals)
+                      else (vals == nextState, nextState)
+            )
+            (False, values)
+          $ repeat 23
+   in product
+        . map fst
+        . filter
+          ( \(_, location) -> case location of
+              OutputLocation a -> a `elem` [0 .. 2]
+              _ -> False
+          )
+        $ M.toList finalState
